@@ -1,4 +1,5 @@
 import React from 'react';
+import { api } from '../../services/api';
 import { ApplicationReportDetail } from '../../types';
 import {
   FileText,
@@ -436,7 +437,7 @@ export const AutomatedVerificationReportModal: React.FC<AutomatedVerificationRep
                           {it.document_name}
                           {it.ela_artifact_url && (
                             <a
-                              href={`http://localhost:8000${it.ela_artifact_url}`}
+                              href={api.getArtifactUrl(it.ela_artifact_url)}
                               target="_blank"
                               rel="noreferrer"
                               className="text-[10px] text-blue-600 hover:underline block font-normal mt-0.5"

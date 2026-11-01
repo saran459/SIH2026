@@ -143,6 +143,7 @@ def get_document(
 
     return build_doc_response(doc)
 
+@router.get("/documents/{id}/download")
 @router.get("/documents/{id}/preview")
 def preview_document(
     id: int,

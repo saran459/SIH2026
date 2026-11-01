@@ -9,6 +9,7 @@ from app.schemas.auth import LoginRequest, Token, UserResponse, RegisterRequest,
 from app.services.auth_service import verify_password, create_access_token, get_password_hash
 from app.services.audit_service import log_audit_event
 from app.api.deps import get_current_user
+from app.config import settings
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
@@ -247,7 +248,9 @@ def get_me(current_user: User = Depends(get_current_user)):
 
 @router.get("/demo-accounts")
 def get_demo_accounts():
-    """Provides preconfigured demonstration accounts for 1-click SIH testing."""
+    """Provides preconfigured demonstration accounts for testing in development environments only."""
+    if (settings.ENVIRONMENT or "").lower() == "production":
+        return []
     return [
         {
             "role": "institution",

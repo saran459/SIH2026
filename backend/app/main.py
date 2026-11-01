@@ -5,6 +5,8 @@ from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+import os
 from app.config import settings
 from app.database import engine, Base
 from app.api import (
@@ -83,11 +85,17 @@ async def generic_exception_handler(request: Request, exc: Exception):
 app.add_middleware(AuditLoggingMiddleware)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.ALLOWED_ORIGINS,
+    allow_origins=settings.get_allowed_origins(),
+    allow_origin_regex=settings.ALLOWED_ORIGIN_REGEX if settings.ALLOWED_ORIGIN_REGEX else None,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Ensure upload directory & forensic subdirectories exist and mount static file handler
+os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
+os.makedirs(os.path.join(settings.UPLOAD_DIR, "ela_artifacts"), exist_ok=True)
+app.mount("/uploads", StaticFiles(directory=settings.UPLOAD_DIR), name="uploads")
 
 # Include Routers
 app.include_router(auth.router, prefix="/api")

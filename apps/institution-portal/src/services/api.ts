@@ -348,6 +348,14 @@ export const api = {
     return handleResponse(res);
   },
 
+  getArtifactUrl(urlOrPath: string): string {
+    if (!urlOrPath) return '';
+    if (urlOrPath.startsWith('http://') || urlOrPath.startsWith('https://')) return urlOrPath;
+    const baseOrigin = API_BASE.replace(/\/api\/?$/, '');
+    const cleanPath = urlOrPath.startsWith('/') ? urlOrPath : `/${urlOrPath}`;
+    return `${baseOrigin}${cleanPath}`;
+  },
+
   getDocumentDownloadUrl(id: number): string {
     return `${API_BASE}/documents/${id}/download`;
   },

@@ -5,9 +5,9 @@ from datetime import datetime
 from typing import Dict, Any, Optional, List, Tuple
 from PIL import Image, ImageChops, ImageEnhance
 import numpy as np
-import cv2
+from app.config import settings
 
-ELA_ARTIFACTS_DIR = os.path.abspath("backend/uploads/ela_artifacts")
+ELA_ARTIFACTS_DIR = os.path.join(settings.UPLOAD_DIR, "ela_artifacts")
 os.makedirs(ELA_ARTIFACTS_DIR, exist_ok=True)
 
 SUPPORTED_IMAGE_MIMES = {

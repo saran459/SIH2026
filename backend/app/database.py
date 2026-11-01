@@ -22,7 +22,16 @@ def get_engine():
         logger.info(f"Connected successfully to configured database: {settings.DATABASE_URL.split('@')[-1]}")
         return engine
     except Exception as e:
-        logger.warning(f"Could not connect to MySQL ({e}). Falling back to local SQLite database.")
+        # In production, never silently fall back to an ephemeral SQLite database
+        if (settings.ENVIRONMENT or "").lower() == "production":
+            logger.critical(f"FATAL: Production database connection failed to '{settings.DATABASE_URL.split('@')[-1]}': {e}")
+            raise RuntimeError(
+                f"Production database connection failure: Could not connect to MySQL using DATABASE_URL. "
+                f"In production, the application strictly requires a persistent managed MySQL database. "
+                f"Please check your database host, credentials, SSL, and network access. Error: {e}"
+            )
+
+        logger.warning(f"Development fallback: Could not connect to MySQL ({e}). Falling back to local SQLite database for offline testing.")
         sqlite_url = "sqlite:///./aicte_smartapproval.db"
         engine = create_engine(
             sqlite_url,
