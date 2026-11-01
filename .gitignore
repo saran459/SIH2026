@@ -1,0 +1,61 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Production Builds & Caches
+dist/
+build/
+*.tsbuildinfo
+.vite/
+.parcel-cache/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Databases & sensitive backups
+*.db
+*.sqlite3
+*.sql
+*.dump
+database_backups/
+
+# Environment files & Secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.env
+*.pem
+*.key
+*.cert
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Private Uploads & temporary artifacts
+backend/uploads/*
+!backend/uploads/.gitkeep
+scratch/
+
+# IDE & OS Files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
