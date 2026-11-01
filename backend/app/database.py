@@ -1,4 +1,5 @@
 import logging
+import re
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 from app.config import settings
@@ -9,9 +10,25 @@ Base = declarative_base()
 
 def get_engine():
     try:
+        # Prepare connection parameters for MySQL 8 and PyMySQL SSL compatibility
+        clean_url = settings.DATABASE_URL
+        connect_args = {}
+
+        # PyMySQL requires SSL as a connect_args dictionary rather than ssl_mode query parameter
+        if "ssl-mode" in clean_url or "ssl_mode" in clean_url or "ssl=" in clean_url:
+            clean_url = re.sub(r'[?&]ssl[-_]?mode=[^&]+', '', clean_url)
+            clean_url = re.sub(r'[?&]ssl=[^&]+', '', clean_url)
+            if '?' not in clean_url and '&' in clean_url:
+                clean_url = clean_url.replace('&', '?', 1)
+            clean_url = clean_url.rstrip('?&')
+            connect_args["ssl"] = {}
+        elif any(cloud_host in clean_url for cloud_host in ["aivencloud.com", "tidbcloud.com", "clever-cloud.com"]):
+            connect_args["ssl"] = {}
+
         # First attempt with configured DATABASE_URL (MySQL 8)
         engine = create_engine(
-            settings.DATABASE_URL,
+            clean_url,
+            connect_args=connect_args,
             echo=settings.SQL_ECHO,
             pool_pre_ping=True,
             pool_recycle=3600
@@ -19,7 +36,7 @@ def get_engine():
         # Test connection
         with engine.connect() as conn:
             pass
-        logger.info(f"Connected successfully to configured database: {settings.DATABASE_URL.split('@')[-1]}")
+        logger.info(f"Connected successfully to configured database: {clean_url.split('@')[-1]}")
         return engine
     except Exception as e:
         # In production, never silently fall back to an ephemeral SQLite database
