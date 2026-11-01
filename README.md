@@ -198,8 +198,6 @@ Institution Frontend: http://localhost:5173
 
 Reviewer Frontend: http://localhost:5174
 
-Administrator Frontend: http://localhost:5175
-
 Backend API: http://localhost:8000
 
 API Documentation: http://localhost:8000/docs
