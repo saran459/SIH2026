@@ -201,3 +201,13 @@ Reviewer Frontend: http://localhost:5174
 Backend API: http://localhost:8000
 
 API Documentation: http://localhost:8000/docs
+
+🚀 Live Deployment Links
+
+Institution Portal link : https://aicte-institution-portal.vercel.app/login
+
+Reviewer Portal : https://aicte-reviewer-portal.vercel.app/login
+
+Backend Portal : https://aicte-backend-9fbb.onrender.com/
+
+
