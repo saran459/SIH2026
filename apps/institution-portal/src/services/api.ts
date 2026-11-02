@@ -22,7 +22,7 @@ import {
   ComplianceMatrixResponse
 } from '../types';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://aicte-backend-9fbb.onrender.com/api';
 
 function getHeaders(isFormData: boolean = false): HeadersInit {
   const token = localStorage.getItem('aicte_token');
