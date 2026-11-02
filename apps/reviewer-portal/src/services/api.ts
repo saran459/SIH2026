@@ -26,7 +26,16 @@ import {
   ComplianceMatrixResponse
 } from '../types';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://aicte-backend-9fbb.onrender.com/api';
+function getApiBase(): string {
+  let url = (import.meta.env.VITE_API_BASE_URL || 'https://aicte-backend-9fbb.onrender.com/api').trim();
+  url = url.replace(/\/+$/, '');
+  if (!url.endsWith('/api')) {
+    url = `${url}/api`;
+  }
+  return url;
+}
+
+const API_BASE = getApiBase();
 
 function getHeaders(isFormData: boolean = false): HeadersInit {
   const token = localStorage.getItem('aicte_token');
