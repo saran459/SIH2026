@@ -192,16 +192,6 @@ npm run build:reviewer
 ```
 *Transforms and bundles all modules with 0 TypeScript or bundling errors.*
 
-Local Development URLs
-
-Institution Frontend: http://localhost:5173
-
-Reviewer Frontend: http://localhost:5174
-
-Backend API: http://localhost:8000
-
-API Documentation: http://localhost:8000/docs
-
 🚀 Live Deployment Links
 
 Institution Portal link : https://aicte-institution-portal.vercel.app/login
